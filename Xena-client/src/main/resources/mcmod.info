@@ -1,0 +1,16 @@
+[
+{
+  "modid": "xena",
+  "name": "Xena",
+  "description": "A utility mod for Minecraft 1.12.2, geared towards Anarchy Servers.",
+  "version": "",
+  "mcversion": "1.12.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": [""],
+  "credits": "See GitHub for a full list of credits.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

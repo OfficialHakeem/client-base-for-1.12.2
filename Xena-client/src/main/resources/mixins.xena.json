@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "club.xena.client.impl.mixins",
+  "refmap": "mixins.xena.refmap.json",
+  "mixins": [
+    "MixinAbstractClientPlayer",
+    "MixinBlockSoulSand",
+    "MixinEntityRenderer",
+    "MixinGuiBossOverlay",
+    "MixinGuiMainMenu",
+    "MixinLayerBipedArmor",
+    "MixinModelEnderCrystal",
+    "MixinNetworkManager",
+    "MixinPlayerControllerMP"
+  ]
+}
