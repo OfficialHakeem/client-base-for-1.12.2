@@ -1,0 +1,125 @@
+package club.xena.client.api.guiscreen;
+
+import java.util.ArrayList;
+import club.xena.client.api;
+import club.xena.client.api.guiscreen.render.components.XenaFrame;
+import club.xena.client.api.hacks.XenaCategory;
+import club.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+
+public class XenaGUI
+extends GuiScreen {
+    private ArrayListXenaFrame> frame;
+    private int frame_x = 10;
+    privateXenaFrame current;
+    private boolean event_start = true;
+    private boolean event_finish = false;
+    public int theme_frame_name_r = 0;
+    public int theme_frame_name_g = 0;
+    public int theme_frame_name_b = 0;
+    public int theme_frame_name_a = 0;
+    public int theme_frame_background_r = 0;
+    public int theme_frame_background_g = 0;
+    public int theme_frame_background_b = 0;
+    public int theme_frame_background_a = 0;
+    public int theme_frame_border_r = 0;
+    public int theme_frame_border_g = 0;
+    public int theme_frame_border_b = 0;
+    public int theme_widget_name_r = 0;
+    public int theme_widget_name_g = 0;
+    public int theme_widget_name_b = 0;
+    public int theme_widget_name_a = 0;
+    public int theme_widget_background_r = 0;
+    public int theme_widget_background_g = 0;
+    public int theme_widget_background_b = 0;
+    public int theme_widget_background_a = 0;
+    public int theme_widget_border_r = 0;
+    public int theme_widget_border_g = 0;
+    public int theme_widget_border_b = 0;
+    private final Minecraft mc = Minecraft.func_71410_x();
+
+    public XenaGUI() {
+        this.frame = new ArrayList();
+        for (WurstplusCategory categorys : XenaCategory.values()) {
+            if (categorys.is_hidden()) continue;
+            XenaFrame frames = newXenaFrame(categorys);
+            frames.set_x(this.frame_x);
+            this.frame.add(frames);
+            this.frame_x += frames.get_width() + 5;
+            this.current = frames;
+        }
+    }
+
+    public boolean func_73868_f() {
+        return false;
+    }
+
+    public void func_146281_b() {
+        Xena.get_hack_manager().get_module_with_tag("GUI").set_active(false);
+        Xena.get_config_manager().save_settings();
+    }
+
+    protected void func_73869_a(char char_, int key) {
+        for (XenaFrame frame : this.frame) {
+            frame.bind(char_, key);
+            if (key == 1 && !frame.is_binding()) {
+                this.mc.func_147108_a(null);
+            }
+            if (key == 208 || key == 200) {
+                frame.set_y(frame.get_y() - 1);
+            }
+            if (key != 200 && key != 208) continue;
+            frame.set_y(frame.get_y() + 1);
+        }
+    }
+
+    protected void func_73864_a(int mx, int my, int mouse) {
+        for (XenaFrame frames : this.frame) {
+            frames.mouse(mx, my, mouse);
+            if (mouse != 0 || !frames.motion(mx, my) || !frames.can()) continue;
+            frames.does_button_for_do_widgets_can(false);
+            this.current = frames;
+            this.current.set_move(true);
+            this.current.set_move_x(mx - this.current.get_x());
+            this.current.set_move_y(my - this.current.get_y());
+        }
+    }
+
+    protected void func_146286_b(int mx, int my, int state) {
+        for (XenaFrame frames : this.frame) {
+            frames.does_button_for_do_widgets_can(true);
+            frames.mouse_release(mx, my, state);
+            frames.set_move(false);
+        }
+        this.set_current(this.current);
+    }
+
+    public void func_73863_a(int mx, int my, float tick) {
+        this.func_146276_q_();
+        for (XenaFrame frames : this.frame) {
+            frames.render(mx, my);
+        }
+    }
+
+    public void set_current(XenaFrame current) {
+        this.frame.remove((Object)current);
+        this.frame.add(current);
+    }
+
+    public XenaFrame get_current() {
+        return this.current;
+    }
+
+    public ArrayList<XenaFrame> get_array_frames() {
+        return this.frame;
+    }
+
+    public Xena Frame get_frame_with_tag(String tag) {
+        XenaFrame frame_requested = null;
+        for (XenaFrame frames : this.get_array_frames()) {
+            if (!frames.get_tag().equals(tag)) continue;
+            frame_requested = frames;
+        }
+        return frame_requested;
+    }
+}
